@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.oneMapper"> <!-- 매퍼의 이름 -->
+
+	<select id="maxOne" resultType="Integer">
+		select max(seqno) from myproject_one_tbl
+	</select>
+
+	<select id="findMovie" resultType="model.OneBBS">
+		select moviename from myproject_one_tbl
+	</select>
+
+	<insert id="putOneBBS" parameterType="model.OneBBS">
+		insert into myproject_one_tbl values(#{seqno}, #{moviename}, 
+			#{content},#{id}, sysdate)
+	</insert>
+	
+	<select id="getAllOne" parameterType="model.FromTo" resultType="model.OneBBS">
+		select seqno, moviename, id, content,to_char(sysdate, 'YY/MM/DD') "one_date"
+		from	(select rownum rn, seqno, moviename, id, content, one_date 
+			from (select seqno, moviename, id, content, one_date from myproject_one_tbl 
+			order by seqno desc)) 
+		where rn > #{from} and rn <![CDATA[<]]> #{to}
+	</select>
+	
+	<select id="getOneCount" resultType="Integer">
+		select count(*) from myproject_one_tbl
+	</select>
+	<select id="getOneDetail" parameterType="Integer" resultType="model.OneBBS">
+		select seqno, moviename, id, to_char(one_date, 'YY/MM/DD') "one_date",
+			content
+		from myproject_one_tbl where seqno = #{seqno}
+	</select>
+	<update id="updateOne" parameterType="model.OneBBS">
+		update myproject_one_tbl set content = #{content}
+			where seqno = #{seqno}
+	</update>
+	<delete id="deleteOne" parameterType="Integer">
+		delete from myproject_one_tbl where seqno = #{seqno}
+	</delete>
+</mapper>

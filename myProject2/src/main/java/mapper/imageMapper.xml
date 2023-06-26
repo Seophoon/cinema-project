@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.imageMapper"> <!-- 매퍼의 이름 -->
+	<update id="updateImageBBS" parameterType="model.ImageBBS">
+		update myproject_movie_tbl set moviename = #{moviename}, description = #{description},
+		derector = #{derector} where seqno = #{seqno}
+	</update>
+	<delete id="deleteImageBBS" parameterType="Integer" >
+		delete from myproject_movie_tbl where seqno = #{seqno}
+	</delete>
+	<select id="getMaxImageBBS" resultType="Integer">
+		select max(seqno) from myproject_movie_tbl
+	</select>
+	<insert id="putImageBBS" parameterType="model.ImageBBS">
+		insert into myproject_movie_tbl values(#{moviename}, 
+			#{pictureUrl},#{derector},#{movieDate},#{description},#{seqno}, #{id})
+	</insert>
+	<select id="getImageCount" resultType="Integer">
+		select count(*) from myproject_movie_tbl
+	</select>
+	<select id="getImages" parameterType="model.FromTo" resultType="model.ImageBBS">
+		select seqno, moviename, derector, to_char(movieDate, 'YY/MM/DD') "movieDate"
+		from	(select rownum rn, seqno, moviename, derector, movieDate 
+			from (select seqno, moviename, derector, movieDate 
+			from myproject_movie_tbl 
+			order by seqno desc)) 
+		where rn > #{from} and rn <![CDATA[<]]> #{to}
+	</select>
+	<select id="getImageDetail" parameterType="Integer" resultType="model.ImageBBS">
+		select moviename, derector, 
+			to_char(movieDate, 'YY/MM/DD') "movieDate", pictureurl,
+			description, id, seqno from myproject_movie_tbl
+		where seqno = #{seqno}
+	</select>
+	
+	<select id="findMovie" resultType="model.ImageBBS">
+		select moviename from myproject_movie_tbl
+	</select>
+	
+	<insert id="putOneBBS" parameterType="model.ImageBBS">
+		insert into myproject_movie_tbl values(#{moviename}, 
+			#{id},#{content},#{one_date})
+	</insert>
+</mapper>

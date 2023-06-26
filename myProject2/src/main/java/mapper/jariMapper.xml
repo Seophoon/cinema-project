@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.jariMapper"> <!-- 매퍼의 이름 -->
+	<select id="getJariList" resultType="model.Jari">
+		select jari from myproject_yeyak_tbl where moviename = #{moviename}
+	</select>
+	<insert id="insertJari" parameterType="model.Jari">
+		insert into myproject_yeyak_tbl values(#{moviename},#{id}, sysdate, #{jari})
+	</insert>
+	
+	<select id="myYeyak" resultType="model.Jari">
+		select moviename, jari, id, yeyak_date from myproject_yeyak_tbl where id = #{id}
+	</select>
+</mapper>
