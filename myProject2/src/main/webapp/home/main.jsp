@@ -129,7 +129,7 @@ line-height: 50px;
 		</table>
 	</section>
 	<footer class = "ft">
-			<h3 align = "center">CopyRight by SeopHoon. 2023. 
+			<h3 align = "center">CopyRight by SeopHoon. 2023. asd
 				<font color = "red">
 					<span id = "clock">½Ã°è</span>
 				</font>
